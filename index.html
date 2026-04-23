@@ -115,8 +115,8 @@
 
       if (values.length < 5) return;
       values.sort((a, b) => a - b);
-      let yMin = quantile(values, 0.01);
-      let yMax = quantile(values, 0.99);
+      let yMin = quantile(values, 0.001);
+      let yMax = quantile(values, 0.999);
       if (yMin === null || yMax === null) return;
 
       if (yMin === yMax) {
