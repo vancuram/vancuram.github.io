@@ -59,6 +59,12 @@ def main() -> None:
         save_figure_json(HERE / rel, tw)
         manifest["figureFiles"][key] = rel
 
+        tw_mobile = app.create_time_windows_plot(test_id, mobile=True)
+        key = f"{test_id}__time_windows__mobile"
+        rel = f"figures/{key}.json"
+        save_figure_json(HERE / rel, tw_mobile)
+        manifest["figureFiles"][key] = rel
+
         ar = app.create_admission_routine_plot(test_id)
         key = f"{test_id}__admission_routine"
         rel = f"figures/{key}.json"
@@ -69,6 +75,12 @@ def main() -> None:
         key = f"{test_id}__quartiles"
         rel = f"figures/{key}.json"
         save_figure_json(HERE / rel, qt)
+        manifest["figureFiles"][key] = rel
+
+        qt_mobile = app.create_quartiles_plot(test_id, mobile=True)
+        key = f"{test_id}__quartiles__mobile"
+        rel = f"figures/{key}.json"
+        save_figure_json(HERE / rel, qt_mobile)
         manifest["figureFiles"][key] = rel
 
         for conf in confs:

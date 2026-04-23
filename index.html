@@ -16,6 +16,9 @@
     #info-text { margin-bottom: 8px; color: #444; font-size: 14px; }
     #plot { height: 82vh; min-height: 500px; border: 1px solid #e2ece2; border-radius: 8px; background: white; }
     .error { color: #b00020; font-size: 14px; }
+    @media (max-width: 900px) {
+      .controls { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -81,6 +84,10 @@
 
     function clearPlot(msg) {
       plotDiv.innerHTML = `<div class="error" style="padding:16px;">${msg}</div>`;
+    }
+
+    function isMobileLayout() {
+      return (window.innerWidth || 1200) < 900;
     }
 
     function quantile(sortedArr, q) {
@@ -199,6 +206,9 @@
       }
 
       let key = `${state.testId}__${state.plotType}`;
+      if (isMobileLayout() && (state.plotType === "time_windows" || state.plotType === "quartiles")) {
+        key = `${key}__mobile`;
+      }
       if (state.plotType === "confounder") {
         if (!state.confounder) {
           clearPlot("No confounder available for selected test.");
@@ -274,6 +284,19 @@
     confounderSelect.addEventListener("change", async (e) => {
       state.confounder = e.target.value;
       await renderSelectedFigure();
+    });
+
+    let resizeTimer = null;
+    let lastMobile = isMobileLayout();
+    window.addEventListener("resize", () => {
+      if (resizeTimer) clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(async () => {
+        const nowMobile = isMobileLayout();
+        if (nowMobile !== lastMobile) {
+          lastMobile = nowMobile;
+          await renderSelectedFigure();
+        }
+      }, 180);
     });
 
     init();
