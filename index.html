@@ -236,7 +236,7 @@
         } else if (state.plotType === "admission_routine") {
           infoText.textContent = "Admission-to-routine subset based on first admission measurement and first routine follow-up measurement.";
         } else if (state.plotType === "quartiles") {
-          infoText.textContent = "Four subplots split by quartiles from model_<test>_quartiles_<i>.* files.";
+          infoText.textContent = "Four subplots of admissions split by quartiles of the measurement's first value.";
         } else {
           const meta = state.manifest.confounderDisplay[state.confounder] || { name: state.confounder, low: "Low", high: "High" };
           infoText.textContent = `${meta.name}: ${meta.low} vs ${meta.high}.`;
